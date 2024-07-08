@@ -1,4 +1,4 @@
--e .
+#-e .
 pandas
 numpy==1.23.1
 openpyxl
@@ -6,3 +6,8 @@ matplotlib
 seaborn
 jmespath==0.10.0
 urllib3==1.26.9
+scikit-learn
+imbalanced-learn
+joblib
+xgboost
+spacy
