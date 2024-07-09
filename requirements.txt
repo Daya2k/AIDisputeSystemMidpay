@@ -11,3 +11,4 @@ imbalanced-learn
 joblib
 xgboost
 spacy
+pyarrow
