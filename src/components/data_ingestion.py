@@ -5,7 +5,9 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from src.exception import CustomException
 from src.logger import logging
+# inherits some special methods like __init__,etc
 from dataclasses import dataclass
+from src.components.data_transformation import DataTransformation, DataTransformationConfig
 
 
 @dataclass
@@ -38,7 +40,7 @@ class DataIngestion:
 
             logging.info("Train Test Split Started")
             train_set, test_set = train_test_split(
-                df, test_size=0.2, random_state=42, stratify=df.classes)
+                df, test_size=0.2, random_state=42, stratify=df.classes.values)
 
             train_set.to_pickle(self.ingestion_config.train_data_path)
             test_set.to_pickle(self.ingestion_config.test_data_path)
@@ -52,3 +54,11 @@ class DataIngestion:
 
         except Exception as e:
             raise CustomException(e, sys)
+
+
+if __name__ == "__main__":
+    obj = DataIngestion()
+    train_df, test_df = obj.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    data_transformation.initiate_data_transformation(train_df, test_df)
