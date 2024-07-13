@@ -12,3 +12,4 @@ joblib
 xgboost
 spacy
 pyarrow
+flask

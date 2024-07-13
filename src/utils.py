@@ -3,6 +3,7 @@ import sys
 
 import numpy as np
 import pandas as pd
+from joblib import load
 
 from .exception import CustomException
 from .logger import logging
@@ -46,5 +47,12 @@ def evaluate_models(X_train, y_train, X_test, y_test, models):
             report[list(models.keys())[i]] = test_model_score
 
         return report
+    except Exception as e:
+        raise CustomException(e, sys)
+
+
+def load_object(file_path):
+    try:
+        return load(file_path)
     except Exception as e:
         raise CustomException(e, sys)
