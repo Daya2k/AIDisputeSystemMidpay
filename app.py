@@ -20,21 +20,26 @@ def index():
 
 
 @app.route('/prediction', methods=['GET', 'POST'])
-def predict_result():
+def predict_severity_result():
     if request.method == 'GET':
-        return render_template('home.html')
+        return render_template('severity.html', prediction=None, prob_high=None, prob_medium=None, prob_low=None, error=None)
     else:
-        data = CustomData(
-            text=request.form.get('text')
-        )
-        pred_df = data.get_data()
-        print(pred_df)
+        try:
+            data = CustomData(
+                text=request.form.get('text')
+            )
+            pred_df = data.get_data()
+            print(pred_df)
 
-        predict_pipeline = PredictPipeline()
+            predict_pipeline = PredictPipeline()
 
-        results = predict_pipeline.predict(pred_df)
-
-        return render_template('home.html', results=results[0])
+            results, probabilities = predict_pipeline.predict(pred_df)
+            prob_high = probabilities[0][2]
+            prob_medium = probabilities[0][1]
+            prob_low = probabilities[0][0]
+            return render_template('severity.html', prediction=results[0].item(), prob_high=prob_high, prob_medium=prob_medium, prob_low=prob_low, error=None)
+        except Exception as e:
+            return render_template('severity.html', prediction=None, prob_high=None, prob_medium=None, prob_low=None, error=str(e))
 
 
 if __name__ == '__main__':
