@@ -27,13 +27,16 @@ class CustomData:
     def __init__(self, text: str):
         self.text = text
 
-    def get_data_as_frame(self):
+    def get_data(self):
         try:
-            custom_data_input_dict = {
-                "text": [self.text]
-            }
-            print(pd.DataFrame(custom_data_input_dict))
-            return pd.DataFrame(custom_data_input_dict)
+            text = [self.text]
+            return text
 
         except Exception as e:
             raise CustomException(e, sys)
+
+
+if __name__ == '__main__':
+    text = ["I lost my card"]
+    model = PredictPipeline()
+    print(model.predict(text))

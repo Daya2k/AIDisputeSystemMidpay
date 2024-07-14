@@ -27,7 +27,7 @@ def predict_result():
         data = CustomData(
             text=request.form.get('text')
         )
-        pred_df = data.get_data_as_frame()
+        pred_df = data.get_data()
         print(pred_df)
 
         predict_pipeline = PredictPipeline()
@@ -38,4 +38,4 @@ def predict_result():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(debug=True, port=8080)

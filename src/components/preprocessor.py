@@ -1,5 +1,6 @@
 import re
 import numpy as np
+import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import MinMaxScaler
 import spacy
@@ -20,16 +21,20 @@ class TextCleaner(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
-        X_clean = []
-        for text in X:
-            text = re.sub(r'[^\w\s\']', ' ', text)
-            text = re.sub(r' +', ' ', text)
-            text = re.sub(self.url_pattern, ' ', text)
-            text = text.strip().lower()
-            X_clean.append(text)
-        return X_clean
-
-# Custom transformer for converting text to vectors
+        if isinstance(X, pd.Series):
+            X = X.tolist()
+        if isinstance(X, list):
+            X_clean = []
+            for text in X:
+                text = re.sub(r'[^\w\s\']', ' ', text)
+                text = re.sub(r' +', ' ', text)
+                text = re.sub(self.url_pattern, ' ', text)
+                text = text.strip().lower()
+                X_clean.append(text)
+            return X_clean  # Return a NumPy array of cleaned texts
+        else:
+            raise ValueError(
+                "Input should be a list of strings or a pandas Series")
 
 
 class TextVectorizer(BaseEstimator, TransformerMixin):
