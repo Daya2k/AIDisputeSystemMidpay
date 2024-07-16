@@ -9,17 +9,16 @@ from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
 application = Flask(__name__)
 
-app = application
 
 # Route for a home page
 
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/prediction', methods=['GET', 'POST'])
+@application.route('/prediction', methods=['GET', 'POST'])
 def predict_severity_result():
     if request.method == 'GET':
         return render_template('severity.html', prediction=None, prob_high=None, prob_medium=None, prob_low=None, error=None)
@@ -43,4 +42,4 @@ def predict_severity_result():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    application.run(host='0.0.0.0')
