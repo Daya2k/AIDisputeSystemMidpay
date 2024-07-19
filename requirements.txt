@@ -13,3 +13,4 @@ xgboost
 spacy
 pyarrow
 flask
+openai
